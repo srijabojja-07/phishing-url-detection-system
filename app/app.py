@@ -23,40 +23,25 @@ model = joblib.load("models/phishing_model.pkl")
 # -------------------------------
 def extract_features(url):
 
+    import re
+    from urllib.parse import urlparse
+
+    parsed = urlparse(url)
+
     features = []
 
-    # Basic features (simple but effective for demo project)
-    features.append(0)  # Index placeholder
-    features.append(1 if "http" in url else 0)  # UsingIP (simplified)
-    features.append(len(url))  # LongURL
-    features.append(1 if url.count("/") > 5 else 0)  # ShortURL proxy
-    features.append(1 if "@" in url else 0)  # Symbol@
-    features.append(1 if "//" in url[8:] else 0)  # Redirecting
-    features.append(1 if "-" in url else 0)  # PrefixSuffix
-    features.append(url.count("."))  # SubDomains
-    features.append(1 if "https" in url else 0)  # HTTPS
-    features.append(0)  # DomainRegLen (unknown simplified)
-    features.append(0)  # Favicon
-    features.append(0)  # NonStdPort
-    features.append(0)  # HTTPSDomainURL
-    features.append(0)  # RequestURL
-    features.append(0)  # AnchorURL
-    features.append(0)  # LinksInScriptTags
-    features.append(0)  # ServerFormHandler
-    features.append(0)  # InfoEmail
-    features.append(0)  # AbnormalURL
-    features.append(0)  # WebsiteForwarding
-    features.append(0)  # StatusBarCust
-    features.append(0)  # DisableRightClick
-    features.append(0)  # UsingPopupWindow
-    features.append(0)  # IframeRedirection
-    features.append(0)  # AgeofDomain
-    features.append(0)  # DNSRecording
-    features.append(0)  # WebsiteTraffic
-    features.append(0)  # PageRank
-    features.append(0)  # GoogleIndex
-    features.append(0)  # LinksPointingToPage
-    features.append(0)  # StatsReport
+    features.append(0)
+    features.append(1 if re.match(r"^http[s]?://\d+\.\d+\.\d+\.\d+", url) else 0)
+    features.append(1 if len(url) > 75 else 0)
+    features.append(1 if len(url) < 20 else 0)
+    features.append(1 if "@" in url else 0)
+    features.append(1 if url.count("//") > 1 else 0)
+    features.append(1 if "-" in parsed.netloc else 0)
+    features.append(parsed.netloc.count("."))
+    features.append(1 if url.startswith("https") else 0)
+
+    for _ in range(22):
+        features.append(0)
 
     return features
 
@@ -88,6 +73,7 @@ with col2:
 # RESET
 # -------------------------------
 if reset_button:
+    st.session_state.clear()
     st.rerun()
 
 # -------------------------------
