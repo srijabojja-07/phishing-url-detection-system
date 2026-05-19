@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import os
 import joblib
 
 # -------------------------------
@@ -14,7 +15,10 @@ st.set_page_config(
 # -------------------------------
 # LOAD MODEL
 # -------------------------------
-model = joblib.load("../models/phishing_model.pkl")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "phishing_model.pkl")
+
+model = joblib.load(MODEL_PATH)
 
 # -------------------------------
 # RESET LOGIC
