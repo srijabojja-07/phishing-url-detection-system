@@ -29,7 +29,6 @@ def extract_features(url):
     parsed = urlparse(url)
 
     features = []
-
     features.append(0)
     features.append(1 if re.match(r"^http[s]?://\d+\.\d+\.\d+\.\d+", url) else 0)
     features.append(1 if len(url) > 75 else 0)
@@ -81,12 +80,11 @@ if reset_button:
 # -------------------------------
 if predict_button:
 
-    if url == "":
+    if url.strip() == "":
         st.warning("Please enter a URL")
+
     else:
-
         features = extract_features(url)
-
         input_data = pd.DataFrame([features])
 
         prediction = model.predict(input_data)
