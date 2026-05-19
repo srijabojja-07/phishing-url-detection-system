@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from urllib.parse import urlparse
-import re
 
 # -------------------------------
 # PAGE CONFIG
@@ -19,71 +17,207 @@ st.set_page_config(
 model = joblib.load("models/phishing_model.pkl")
 
 # -------------------------------
-# FEATURE EXTRACTION (FIXED)
+# RESET LOGIC
 # -------------------------------
-def extract_features(url):
-
-    parsed = urlparse(url)
-
-    # EXACT FEATURE COUNT = 31 (matches your model structure)
-    features = [
-
-        0,  # Index
-
-        1 if re.match(r"^http[s]?://\d+\.\d+\.\d+\.\d+", url) else 0,  # UsingIP
-
-        1 if len(url) > 75 else 0,  # LongURL
-
-        1 if len(url) < 20 else 0,  # ShortURL
-
-        1 if "@" in url else 0,  # Symbol@
-
-        1 if url.count("//") > 1 else 0,  # Redirecting//
-
-        1 if "-" in parsed.netloc else 0,  # PrefixSuffix-
-
-        parsed.netloc.count("."),  # SubDomains
-
-        1 if url.startswith("https") else 0,  # HTTPS
-
-        0,  # DomainRegLen
-        0,  # Favicon
-        0,  # NonStdPort
-        0,  # HTTPSDomainURL
-        0,  # RequestURL
-        0,  # AnchorURL
-        0,  # LinksInScriptTags
-        0,  # ServerFormHandler
-        0,  # InfoEmail
-        0,  # AbnormalURL
-        0,  # WebsiteForwarding
-        0,  # StatusBarCust
-        0,  # DisableRightClick
-        0,  # UsingPopupWindow
-        0,  # IframeRedirection
-        0,  # AgeofDomain
-        0,  # DNSRecording
-        0,  # WebsiteTraffic
-        0,  # PageRank
-        0,  # GoogleIndex
-        0,  # LinksPointingToPage
-        0   # StatsReport
-    ]
-
-    return features
+if "reset_counter" not in st.session_state:
+    st.session_state.reset_counter = 0
 
 # -------------------------------
 # TITLE
 # -------------------------------
 st.title("🚨 Phishing URL Detection System")
-st.write("Enter a URL to check if it is SAFE or PHISHING")
+
+st.write(
+    "Enter phishing feature values to detect whether the website is Legitimate or Phishing."
+)
 
 st.markdown("---")
 
 # -------------------------------
-# URL INPUT (WITH KEY FIX)
+# USER INPUTS
 # -------------------------------
-url = st.text_input("🔗 Enter URL", key="url_input")
+
+UsingIP = st.number_input(
+    "UsingIP",
+    value=0,
+    key=f"UsingIP_{st.session_state.reset_counter}"
+)
+
+LongURL = st.number_input(
+    "LongURL",
+    value=0,
+    key=f"LongURL_{st.session_state.reset_counter}"
+)
+
+ShortURL = st.number_input(
+    "ShortURL",
+    value=0,
+    key=f"ShortURL_{st.session_state.reset_counter}"
+)
+
+Symbol = st.number_input(
+    "Symbol@",
+    value=0,
+    key=f"Symbol_{st.session_state.reset_counter}"
+)
+
+Redirecting = st.number_input(
+    "Redirecting//",
+    value=0,
+    key=f"Redirecting_{st.session_state.reset_counter}"
+)
+
+PrefixSuffix = st.number_input(
+    "PrefixSuffix-",
+    value=0,
+    key=f"PrefixSuffix_{st.session_state.reset_counter}"
+)
+
+SubDomains = st.number_input(
+    "SubDomains",
+    value=0,
+    key=f"SubDomains_{st.session_state.reset_counter}"
+)
+
+HTTPS = st.number_input(
+    "HTTPS",
+    value=0,
+    key=f"HTTPS_{st.session_state.reset_counter}"
+)
+
+DomainRegLen = st.number_input(
+    "DomainRegLen",
+    value=0,
+    key=f"DomainRegLen_{st.session_state.reset_counter}"
+)
+
+Favicon = st.number_input(
+    "Favicon",
+    value=0,
+    key=f"Favicon_{st.session_state.reset_counter}"
+)
+
+NonStdPort = st.number_input(
+    "NonStdPort",
+    value=0,
+    key=f"NonStdPort_{st.session_state.reset_counter}"
+)
+
+HTTPSDomainURL = st.number_input(
+    "HTTPSDomainURL",
+    value=0,
+    key=f"HTTPSDomainURL_{st.session_state.reset_counter}"
+)
+
+RequestURL = st.number_input(
+    "RequestURL",
+    value=0,
+    key=f"RequestURL_{st.session_state.reset_counter}"
+)
+
+AnchorURL = st.number_input(
+    "AnchorURL",
+    value=0,
+    key=f"AnchorURL_{st.session_state.reset_counter}"
+)
+
+LinksInScriptTags = st.number_input(
+    "LinksInScriptTags",
+    value=0,
+    key=f"LinksInScriptTags_{st.session_state.reset_counter}"
+)
+
+ServerFormHandler = st.number_input(
+    "ServerFormHandler",
+    value=0,
+    key=f"ServerFormHandler_{st.session_state.reset_counter}"
+)
+
+InfoEmail = st.number_input(
+    "InfoEmail",
+    value=0,
+    key=f"InfoEmail_{st.session_state.reset_counter}"
+)
+
+AbnormalURL = st.number_input(
+    "AbnormalURL",
+    value=0,
+    key=f"AbnormalURL_{st.session_state.reset_counter}"
+)
+
+WebsiteForwarding = st.number_input(
+    "WebsiteForwarding",
+    value=0,
+    key=f"WebsiteForwarding_{st.session_state.reset_counter}"
+)
+
+StatusBarCust = st.number_input(
+    "StatusBarCust",
+    value=0,
+    key=f"StatusBarCust_{st.session_state.reset_counter}"
+)
+
+DisableRightClick = st.number_input(
+    "DisableRightClick",
+    value=0,
+    key=f"DisableRightClick_{st.session_state.reset_counter}"
+)
+
+UsingPopupWindow = st.number_input(
+    "UsingPopupWindow",
+    value=0,
+    key=f"UsingPopupWindow_{st.session_state.reset_counter}"
+)
+
+IframeRedirection = st.number_input(
+    "IframeRedirection",
+    value=0,
+    key=f"IframeRedirection_{st.session_state.reset_counter}"
+)
+
+AgeofDomain = st.number_input(
+    "AgeofDomain",
+    value=0,
+    key=f"AgeofDomain_{st.session_state.reset_counter}"
+)
+
+DNSRecording = st.number_input(
+    "DNSRecording",
+    value=0,
+    key=f"DNSRecording_{st.session_state.reset_counter}"
+)
+
+WebsiteTraffic = st.number_input(
+    "WebsiteTraffic",
+    value=0,
+    key=f"WebsiteTraffic_{st.session_state.reset_counter}"
+)
+
+PageRank = st.number_input(
+    "PageRank",
+    value=0,
+    key=f"PageRank_{st.session_state.reset_counter}"
+)
+
+GoogleIndex = st.number_input(
+    "GoogleIndex",
+    value=0,
+    key=f"GoogleIndex_{st.session_state.reset_counter}"
+)
+
+LinksPointingToPage = st.number_input(
+    "LinksPointingToPage",
+    value=0,
+    key=f"LinksPointingToPage_{st.session_state.reset_counter}"
+)
+
+StatsReport = st.number_input(
+    "StatsReport",
+    value=0,
+    key=f"StatsReport_{st.session_state.reset_counter}"
+)
+
+st.markdown("---")
 
 # -------------------------------
 # BUTTONS
@@ -97,10 +231,10 @@ with col2:
     reset_button = st.button("🔄 Reset")
 
 # -------------------------------
-# RESET FIX (PROPER)
+# RESET BUTTON
 # -------------------------------
 if reset_button:
-    st.session_state["url_input"] = ""
+    st.session_state.reset_counter += 1
     st.rerun()
 
 # -------------------------------
@@ -108,18 +242,81 @@ if reset_button:
 # -------------------------------
 if predict_button:
 
-    if url.strip() == "":
-        st.warning("Please enter a URL")
+    input_data = pd.DataFrame([[
 
+        0,
+        UsingIP,
+        LongURL,
+        ShortURL,
+        Symbol,
+        Redirecting,
+        PrefixSuffix,
+        SubDomains,
+        HTTPS,
+        DomainRegLen,
+        Favicon,
+        NonStdPort,
+        HTTPSDomainURL,
+        RequestURL,
+        AnchorURL,
+        LinksInScriptTags,
+        ServerFormHandler,
+        InfoEmail,
+        AbnormalURL,
+        WebsiteForwarding,
+        StatusBarCust,
+        DisableRightClick,
+        UsingPopupWindow,
+        IframeRedirection,
+        AgeofDomain,
+        DNSRecording,
+        WebsiteTraffic,
+        PageRank,
+        GoogleIndex,
+        LinksPointingToPage,
+        StatsReport
+
+    ]], columns=[
+
+        'Index',
+        'UsingIP',
+        'LongURL',
+        'ShortURL',
+        'Symbol@',
+        'Redirecting//',
+        'PrefixSuffix-',
+        'SubDomains',
+        'HTTPS',
+        'DomainRegLen',
+        'Favicon',
+        'NonStdPort',
+        'HTTPSDomainURL',
+        'RequestURL',
+        'AnchorURL',
+        'LinksInScriptTags',
+        'ServerFormHandler',
+        'InfoEmail',
+        'AbnormalURL',
+        'WebsiteForwarding',
+        'StatusBarCust',
+        'DisableRightClick',
+        'UsingPopupWindow',
+        'IframeRedirection',
+        'AgeofDomain',
+        'DNSRecording',
+        'WebsiteTraffic',
+        'PageRank',
+        'GoogleIndex',
+        'LinksPointingToPage',
+        'StatsReport'
+
+    ])
+
+    prediction = model.predict(input_data)
+
+    st.markdown("---")
+
+    if prediction[0] == 1:
+        st.error("⚠️ Phishing Website Detected")
     else:
-        features = extract_features(url)
-        input_data = pd.DataFrame([features])
-
-        prediction = model.predict(input_data)
-
-        st.markdown("---")
-
-        if prediction[0] == 1:
-            st.error("⚠️ Phishing Website Detected")
-        else:
-            st.success("✅ Legitimate Website")
+        st.success("✅ Legitimate Website")
