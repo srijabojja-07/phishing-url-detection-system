@@ -18,7 +18,7 @@ st.set_page_config(
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "..", "models", "phishing_model.pkl")
 
-model = joblib.load(MODEL_PATH)
+model = joblib.load("models/phishing_model.pkl")
 
 # -------------------------------
 # RESET LOGIC
