@@ -66,9 +66,11 @@ streamlit run app.py
 - ✅ Legitimate Website
 - ⚠️ Phishing Website Detected
 
-
 ## Internship Presentation
 A phishing awareness presentation for the CodeAlpha Cyber Security Internship has been added in the Presentation folder.
+
+## Secure Coding Review
+A secure coding review report for the phishing URL detection system has been included as part of the CodeAlpha Cyber Security Internship tasks.
 
 ## 👩‍💻 Author
 Srija Bojja
