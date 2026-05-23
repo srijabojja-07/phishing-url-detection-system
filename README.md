@@ -40,7 +40,7 @@ phishing-url-detection-system/
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone <your-github-link>
+git clone https://github.com/srijabojja-07/phishing-url-detection-system.git
 ```
 
 ### 2️⃣ Install Requirements
@@ -52,6 +52,7 @@ pip install -r requirements.txt
 ### 3️⃣ Run Streamlit App
 
 ```bash
+cd phishing-url-detection-system
 cd app
 streamlit run app.py
 ```
@@ -64,6 +65,10 @@ streamlit run app.py
 ## 🎯 Output
 - ✅ Legitimate Website
 - ⚠️ Phishing Website Detected
+
+
+## Internship Presentation
+A phishing awareness presentation for the CodeAlpha Cyber Security Internship has been added in the Presentation folder.
 
 ## 👩‍💻 Author
 Srija Bojja
